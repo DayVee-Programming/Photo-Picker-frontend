@@ -1,0 +1,86 @@
+// Custom variables
+// Colors
+$clr-1: #000000;
+$clr-2: #ffffff;
+$clr-3: #ff8fa3;
+$clr-4: #ffccd5;
+
+// Font families
+$ff-1: 'Inter', sans-serif;
+
+// Font weights
+$fw-1: 400;
+
+// Font sizes
+$fs-1: 16px;
+$fs-2: 30px;
+
+// Responsive font sizes
+$fsr-1: clamp($fs-1, 0.466rem + 3.3vw, $fs-2);
+
+// Basic styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $ff-1;
+  font-weight: $fw-1;
+}
+
+body {
+  min-height: 100svh;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+li {
+  word-break: break-word;
+}
+
+input,
+select,
+textarea {
+  border: none;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+/* Original container for a full webpage */
+.container {
+  max-width: 1430px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+
+// Global styles
+.consider-header {
+  margin-top: 125px;
+}
