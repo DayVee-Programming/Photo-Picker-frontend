@@ -1,4 +1,4 @@
-const ImagePolygon: React.FC = () => {
+const ImagePolygon = () => {
   return (
     <svg
       className="image-polygon"

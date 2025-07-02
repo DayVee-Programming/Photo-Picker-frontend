@@ -84,3 +84,17 @@ textarea {
 .consider-header {
   margin-top: 125px;
 }
+
+// Other styles
+.modal-gallery-main {
+  & .box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: #fff;
+    border: 2px solid #000;
+    padding: 32px;
+  }
+}
