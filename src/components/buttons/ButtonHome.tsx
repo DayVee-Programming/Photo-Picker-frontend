@@ -1,10 +1,13 @@
-import ImageEmojiFlirt from "@/components/images/ImageEmojiFlirt"
+interface ButtonHomeProps {
+  title: string
+  imageNode: React.ReactNode
+}
 
-const ButtonHome = () => {
+const ButtonHome: React.FC<ButtonHomeProps> = ({ title, imageNode }) => {
   return (
     <button className="button-home">
-      <span className="button-home-span">Test your luck!</span>
-      <ImageEmojiFlirt />
+      <span className="button-home-span">{title}</span>
+      {imageNode}
     </button>
   )
 }

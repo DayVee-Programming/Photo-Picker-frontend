@@ -2,6 +2,9 @@ import galleryImage1 from '@/assets/images/gallery-home1.png'
 import ImagePolygon from '@/components/images/ImagePolygon'
 import { Box, Modal } from '@mui/material'
 import { useState } from 'react'
+import ButtonHome from '@/components/buttons/ButtonHome'
+import ImageEmojiSmile from '@/components/images/ImageEmojiSmile'
+import ImageSearch from '@/components/images/ImageSearch'
 
 const GalleryHome = () => {
   // Other variables
@@ -18,7 +21,6 @@ const GalleryHome = () => {
   return (
     <div className="gallery-home">
       <div className="pic">
-        {/* Gallery image */}
         <img
           className="pic-img"
           src={galleryImage1}
@@ -27,7 +29,6 @@ const GalleryHome = () => {
         />
       </div>
       <div className="pic">
-        {/* Gallery image */}
         <img className="pic-img" src={galleryImage1} alt="Gallery image" />
       </div>
       <div className="bg">
@@ -42,7 +43,13 @@ const GalleryHome = () => {
         aria-labelledby="modal-gallery-main-title"
         aria-describedby="modal-gallery-main-description"
       >
-        <Box className="box">Hello World</Box>
+        <Box className="box">
+          <ButtonHome title="Mood for the day" imageNode={<ImageEmojiSmile />} />
+          <figure className='box-figure'>
+            <img className='box-figure-img' src={galleryImage1} alt='Gallery image' />
+          </figure>
+          <ButtonHome title="Try another one" imageNode={<ImageSearch />} />
+        </Box>
       </Modal>
     </div>
   )
