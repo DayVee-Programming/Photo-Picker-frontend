@@ -1,8 +1,10 @@
+import type { FC } from "react"
+
 interface ImageEmojiSmileProps {
   title?: string
 }
 
-const ImageEmojiSmile: React.FC<ImageEmojiSmileProps> = ({ title }) => {
+const ImageEmojiSmile: FC<ImageEmojiSmileProps> = ({ title }) => {
   return (
     <svg
       className="image-emoji-smile"

@@ -1,6 +1,7 @@
 import ImageHome from '@/components/images/ImageHome'
+import type { FC } from 'react'
 
-const HeaderHome: React.FC = () => {
+const HeaderHome: FC = () => {
   return (
     <header className="header-home">
       <div className="container wrapper">

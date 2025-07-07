@@ -1,9 +1,11 @@
+import type { FC, ReactNode } from "react"
+
 interface ButtonHomeProps {
   title: string
-  imageNode: React.ReactNode
+  imageNode: ReactNode
 }
 
-const ButtonHome: React.FC<ButtonHomeProps> = ({ title, imageNode }) => {
+const ButtonHome: FC<ButtonHomeProps> = ({ title, imageNode }) => {
   return (
     <button className="button-home">
       <span className="button-home-span">{title}</span>

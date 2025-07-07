@@ -1,22 +1,15 @@
 import galleryImage1 from '@/assets/images/gallery-home1.png'
 import ImagePolygon from '@/components/images/ImagePolygon'
 import { Box, Modal } from '@mui/material'
-import { useState } from 'react'
+import { useContext } from 'react'
 import ButtonHome from '@/components/buttons/ButtonHome'
-import ImageEmojiSmile from '@/components/images/ImageEmojiSmile'
 import ImageSearch from '@/components/images/ImageSearch'
+import { AppContext } from '@/context/appContext'
 
 const GalleryHome = () => {
   // Other variables
-  const [isModalGalleryMainOpen, setIsModalGalleryMainOpen] = useState(false)
-
-  // Synchronous functions
-  const openModalGalleryMain = () => {
-    setIsModalGalleryMainOpen(true)
-  }
-  const closeModalGalleryMain = () => {
-    setIsModalGalleryMainOpen(false)
-  }
+  const { isModalGalleryMainOpen, openModalGalleryMain, closeModalGalleryMain } =
+    useContext(AppContext)
 
   return (
     <div className="gallery-home">
@@ -44,9 +37,8 @@ const GalleryHome = () => {
         aria-describedby="modal-gallery-main-description"
       >
         <Box className="box">
-          <ButtonHome title="Mood for the day" imageNode={<ImageEmojiSmile />} />
-          <figure className='box-figure'>
-            <img className='box-figure-img' src={galleryImage1} alt='Gallery image' />
+          <figure className="box-figure">
+            <img className="box-figure-img" src={galleryImage1} alt="Gallery image" />
           </figure>
           <ButtonHome title="Try another one" imageNode={<ImageSearch />} />
         </Box>

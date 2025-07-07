@@ -1,3 +1,6 @@
+@use "../abstract" as *;
+@use "../base" as *;
+
 .header-home {
   position: fixed;
   top: 0;

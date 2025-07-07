@@ -1,11 +1,2 @@
-// Functions
-@import 'functions';
-
-// Fonts
-@import 'fonts';
-
-// Global styles
-@import 'global';
-
-// Styles for home page
-@import 'home';
+@forward 'base';
+@forward 'components';
