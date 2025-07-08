@@ -2,17 +2,17 @@ import galleryImage1 from '@/assets/images/gallery-home1.png'
 import ImagePolygon from '@/components/images/ImagePolygon'
 import { Box, Modal } from '@mui/material'
 import { useContext } from 'react'
-import ButtonHome from '@/components/buttons/ButtonHome'
+import ButtonMain from '@/components/buttons/ButtonMain'
 import ImageSearch from '@/components/images/ImageSearch'
 import { AppContext } from '@/context/appContext'
 
-const GalleryHome = () => {
-  // Other variables
+const GalleryMain = () => {
+  // Variables
   const { isModalGalleryMainOpen, openModalGalleryMain, closeModalGalleryMain } =
     useContext(AppContext)
 
   return (
-    <div className="gallery-home">
+    <div className="gallery-main">
       <div className="pic">
         <img
           className="pic-img"
@@ -40,11 +40,11 @@ const GalleryHome = () => {
           <figure className="box-figure">
             <img className="box-figure-img" src={galleryImage1} alt="Gallery image" />
           </figure>
-          <ButtonHome title="Try another one" imageNode={<ImageSearch />} />
+          <ButtonMain title="Try another one" imageNode={<ImageSearch />} />
         </Box>
       </Modal>
     </div>
   )
 }
 
-export default GalleryHome
+export default GalleryMain

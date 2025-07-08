@@ -1,9 +1,9 @@
 import ImageHome from '@/components/images/ImageHome'
 import type { FC } from 'react'
 
-const HeaderHome: FC = () => {
+const HeaderMain: FC = () => {
   return (
-    <header className="header-home">
+    <header className="header-main">
       <div className="container wrapper">
         <a className="logo" href="/" aria-label="Home page">
           <ImageHome />
@@ -25,4 +25,4 @@ const HeaderHome: FC = () => {
   )
 }
 
-export default HeaderHome
+export default HeaderMain
