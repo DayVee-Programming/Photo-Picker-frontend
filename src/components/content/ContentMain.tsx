@@ -8,6 +8,7 @@ import GalleryUpload from '@/components/galleries/GalleryUpload'
 import ImageUpload from '@/components/images/ImageUpload'
 import InputFileUpload from '@/components/inputs/InputFileUpload'
 import ImageSend from '@/components/images/ImageSend'
+import ImagePolygon from '@/components/images/ImagePolygon'
 
 type ImagePreviewType = string | null
 
@@ -40,7 +41,14 @@ const ContentMain = () => {
         <ButtonMain title="Load more" imageNode={<ImageReload />} />
         <GalleryUpload imagePreview={imagePreview} />
         {imagePreview ? (
-          <ButtonMain title="Submit" imageNode={<ImageSend />} />
+          <div className="reupload">
+            <InputFileUpload
+              title="Reupload a new image"
+              imageNode={<ImageUpload />}
+              changeInput={changeInput}
+            />
+            <ButtonMain title="Submit" imageNode={<ImageSend />} />
+          </div>
         ) : (
           <InputFileUpload
             title="Upload a new image"
@@ -48,6 +56,9 @@ const ContentMain = () => {
             changeInput={changeInput}
           />
         )}
+        <div className="bg">
+          <ImagePolygon />
+        </div>
       </div>
     </section>
   )

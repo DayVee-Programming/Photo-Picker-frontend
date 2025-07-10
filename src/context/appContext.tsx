@@ -4,15 +4,19 @@ type AppContextProviderProps = {
   children: ReactNode
 }
 type AppContext = {
+  isModalGalleryMainOpen: boolean
+  isModalGalleryPreviewOpen: boolean
   openModalGalleryMain: () => void
   closeModalGalleryMain: () => void
-  isModalGalleryMainOpen: boolean
+  openModalGalleryPreview: () => void
+  closeModalGalleryPreview: () => void
 }
 
 export const AppContext = createContext({} as AppContext)
 export function AppContextProvider({ children }: AppContextProviderProps) {
   // Variables
   const [isModalGalleryMainOpen, setIsModalGalleryMainOpen] = useState(false)
+  const [isModalGalleryPreviewOpen, setIsModalGalleryPreviewOpen] = useState(false)
 
   // Synchronous functions
   const openModalGalleryMain = () => {
@@ -21,6 +25,12 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   const closeModalGalleryMain = () => {
     setIsModalGalleryMainOpen(false)
   }
+  const openModalGalleryPreview = () => {
+    setIsModalGalleryPreviewOpen(true)
+  }
+  const closeModalGalleryPreview = () => {
+    setIsModalGalleryPreviewOpen(false)
+  }
 
   return (
     <AppContext.Provider
@@ -28,6 +38,9 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         isModalGalleryMainOpen,
         openModalGalleryMain,
         closeModalGalleryMain,
+        isModalGalleryPreviewOpen,
+        openModalGalleryPreview,
+        closeModalGalleryPreview,
       }}
     >
       {children}

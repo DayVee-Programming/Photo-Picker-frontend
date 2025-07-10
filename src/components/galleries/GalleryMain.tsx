@@ -1,10 +1,10 @@
 import galleryImage1 from '@/assets/images/gallery-home1.png'
 import ImagePolygon from '@/components/images/ImagePolygon'
-import { Box, Modal } from '@mui/material'
 import { useContext } from 'react'
 import ButtonMain from '@/components/buttons/ButtonMain'
 import ImageSearch from '@/components/images/ImageSearch'
 import { AppContext } from '@/context/appContext'
+import ModalGalleryMain from '../modals/ModalGalleryMain'
 
 const GalleryMain = () => {
   // Variables
@@ -29,20 +29,13 @@ const GalleryMain = () => {
       </div>
 
       {/* Modal for single gallery image */}
-      <Modal
-        className="modal-gallery-main"
+      <ModalGalleryMain
         open={isModalGalleryMainOpen}
-        onClose={closeModalGalleryMain}
-        aria-labelledby="modal-gallery-main-title"
-        aria-describedby="modal-gallery-main-description"
+        closeFunc={closeModalGalleryMain}
+        imagePath={galleryImage1}
       >
-        <Box className="box">
-          <figure className="box-figure">
-            <img className="box-figure-img" src={galleryImage1} alt="Gallery image" />
-          </figure>
-          <ButtonMain title="Try another one" imageNode={<ImageSearch />} />
-        </Box>
-      </Modal>
+        <ButtonMain title="Try another one" imageNode={<ImageSearch />} />
+      </ModalGalleryMain>
     </div>
   )
 }
