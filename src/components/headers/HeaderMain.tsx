@@ -1,21 +1,27 @@
 import ImageHome from '@/components/images/ImageHome'
 import type { FC } from 'react'
+import { Link } from 'react-router'
 
 const HeaderMain: FC = () => {
+  // Synchronous functions
+  const clickLogo = () => {
+    window.scrollTo({ top: 0 })
+  }
+
   return (
     <header className="header-main">
       <div className="container wrapper">
-        <a className="logo" href="/" aria-label="Home page">
+        <Link className="logo" to="/" aria-label="Home page" onClick={clickLogo}>
           <ImageHome />
-        </a>
-        <ul className='nav-list'>
-          <li className='nav-list-item'>
-            <a className='nav-list-link' aria-label='Home page'>
+        </Link>
+        <ul className="nav-list">
+          <li className="nav-list-item">
+            <a href="#gallery-main" className="nav-list-link" aria-label="Home page">
               Images
             </a>
           </li>
-          <li className='nav-list-item'>
-            <a className='nav-list-link' aria-label='Home page'>
+          <li className="nav-list-item">
+            <a href="#gallery-upload" className="nav-list-link" aria-label="Home page">
               Upload
             </a>
           </li>

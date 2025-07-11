@@ -9,12 +9,15 @@ import ImageUpload from '@/components/images/ImageUpload'
 import InputFileUpload from '@/components/inputs/InputFileUpload'
 import ImageSend from '@/components/images/ImageSend'
 import ImagePolygon from '@/components/images/ImagePolygon'
+import ModalGalleryMain from '@/components/modals/ModalGalleryMain'
+import ImageSearch from '@/components/images/ImageSearch'
+import galleryImage1 from "@/assets/images/gallery-home1.png"
 
 type ImagePreviewType = string | null
 
 const ContentMain = () => {
   // Variables
-  const { openModalGalleryMain } = useContext(AppContext)
+  const { isModalGalleryMainOpen, openModalGalleryMain, closeModalGalleryMain } = useContext(AppContext)
   const [imagePreview, setImagePreview] = useState<ImagePreviewType>(null)
 
   // Synchronous functions
@@ -60,6 +63,16 @@ const ContentMain = () => {
           <ImagePolygon />
         </div>
       </div>
+
+
+      {/* Modal for single gallery image */}
+      <ModalGalleryMain
+        open={isModalGalleryMainOpen}
+        closeFunc={closeModalGalleryMain}
+        imagePath={galleryImage1}
+      >
+        <ButtonMain title="Try another one" imageNode={<ImageSearch />} />
+      </ModalGalleryMain>
     </section>
   )
 }

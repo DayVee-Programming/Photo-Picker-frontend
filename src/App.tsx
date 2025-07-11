@@ -1,8 +1,12 @@
 import HeaderMain from '@/components/headers/HeaderMain'
 import ContentMain from '@/components/content/ContentMain'
 import { AppContextProvider } from '@/context/appContext'
+import type { FC } from 'react'
 
-const App = () => {
+// Import 'react-medium-image-zoom' library styles
+import 'react-medium-image-zoom/dist/styles.css'
+
+const App: FC = () => {
   return (
     <div className="app">
       <AppContextProvider>

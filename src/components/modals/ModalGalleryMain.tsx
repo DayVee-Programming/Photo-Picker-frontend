@@ -1,4 +1,4 @@
-import { Box, Modal } from '@mui/material'
+import { Box, Fade, Modal } from '@mui/material'
 import { type FC, type ReactNode } from 'react'
 
 interface ModalGalleryMainProps {
@@ -21,17 +21,24 @@ const ModalGalleryMain: FC<ModalGalleryMainProps> = ({
       onClose={closeFunc}
       aria-labelledby="modal-gallery-main-title"
       aria-describedby="modal-gallery-main-description"
+      slotProps={{
+        backdrop: {
+          timeout: 300,
+        },
+      }}
     >
-      <Box className="box">
-        <figure className="box-figure">
-          <img
-            className="box-figure-img"
-            src={imagePath ? imagePath : undefined}
-            alt="Gallery image"
-          />
-        </figure>
-        {children}
-      </Box>
+      <Fade in={open}>
+        <Box className="box">
+          <figure className="box-figure">
+            <img
+              className="box-figure-img"
+              src={imagePath ? imagePath : undefined}
+              alt="Gallery image"
+            />
+          </figure>
+          {children}
+        </Box>
+      </Fade>
     </Modal>
   )
 }
