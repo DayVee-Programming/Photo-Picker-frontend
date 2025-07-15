@@ -1,20 +1,27 @@
-import galleryImage1 from '@/assets/images/gallery-home1.png'
+import { type FC } from 'react'
 import ImagePolygon from '@/components/images/ImagePolygon'
 import Zoom from 'react-medium-image-zoom'
 
-const GalleryMain = () => {
+interface GalleryMainProps {
+  images: string[]
+}
+
+const GalleryMain: FC<GalleryMainProps> = ({ images }) => {
   return (
     <div className="gallery-main" id="gallery-main">
-      <Zoom>
-        <div className="pic">
-          <img className="pic-img" src={galleryImage1} alt="Gallery image" />
+      {images.length ? (
+        images.map((src, idx) => (
+          <Zoom key={idx}>
+            <div className="pic">
+              <img className="pic-img" src={src} alt="Gallery image" />
+            </div>
+          </Zoom>
+        ))
+      ) : (
+        <div className="no-data">
+          <p className="no-data-text">Try uploading some images!</p>
         </div>
-      </Zoom>
-      <Zoom>
-        <div className="pic">
-          <img className="pic-img" src={galleryImage1} alt="Gallery image" />
-        </div>
-      </Zoom>
+      )}
       <div className="bg">
         <ImagePolygon />
       </div>

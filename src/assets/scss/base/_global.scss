@@ -147,6 +147,16 @@
     left: calc(50% - 130px);
     z-index: -1;
   }
+
+  & .no-data {
+    display: flex;
+    justify-content: center;
+    grid-column: span 3;
+  }
+
+  & .no-data-text {
+    font-size: $fs-2;
+  }
 }
 
 .gallery-upload {

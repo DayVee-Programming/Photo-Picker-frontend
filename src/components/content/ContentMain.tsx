@@ -2,7 +2,7 @@ import ButtonMain from '@/components/buttons/ButtonMain'
 import GalleryMain from '@/components/galleries/GalleryMain'
 import ImageEmojiFlirt from '@/components/images/ImageEmojiFlirt'
 import { AppContext } from '@/context/appContext'
-import { useContext, useState, type ChangeEvent } from 'react'
+import { useContext, useEffect, useState, type ChangeEvent } from 'react'
 import ImageReload from '@/components/images/ImageReload'
 import GalleryUpload from '@/components/galleries/GalleryUpload'
 import ImageUpload from '@/components/images/ImageUpload'
@@ -11,14 +11,35 @@ import ImageSend from '@/components/images/ImageSend'
 import ImagePolygon from '@/components/images/ImagePolygon'
 import ModalGalleryMain from '@/components/modals/ModalGalleryMain'
 import ImageSearch from '@/components/images/ImageSearch'
-import galleryImage1 from "@/assets/images/gallery-home1.png"
+import galleryImage1 from '@/assets/images/gallery-home1.png'
+import { addImage, getAllImages } from '@/lib/idb'
 
 type ImagePreviewType = string | null
 
 const ContentMain = () => {
   // Variables
-  const { isModalGalleryMainOpen, openModalGalleryMain, closeModalGalleryMain } = useContext(AppContext)
+  const { isModalGalleryMainOpen, openModalGalleryMain, closeModalGalleryMain } =
+    useContext(AppContext)
   const [imagePreview, setImagePreview] = useState<ImagePreviewType>(null)
+  const { pendingFile, setPendingFile } = useContext(AppContext)
+  const [images, setImages] = useState<string[]>([])
+
+  // Asynchronous functions
+  const uploadImage = async () => {
+    if (!imagePreview) return
+    try {
+      if (pendingFile) {
+        await addImage(pendingFile)
+        alert('Image saved to IndexedDB!')
+        setPendingFile(null)
+        setImagePreview(null)
+      } else {
+        console.error('Image is not found')
+      }
+    } catch (err) {
+      console.error('Failed to save image:', err)
+    }
+  }
 
   // Synchronous functions
   const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,8 +50,26 @@ const ContentMain = () => {
     }
     const file = files[0]
     const previewUrl = URL.createObjectURL(file)
+    setPendingFile(file)
     setImagePreview(previewUrl)
   }
+
+  // Effects
+  useEffect(() => {
+    let mounted = true
+    let createdUrls: string[] = []
+    getAllImages()
+      .then((blobs) => {
+        if (!mounted) return
+        createdUrls = blobs.map((blob) => URL.createObjectURL(blob))
+        setImages(createdUrls)
+      })
+      .catch((err) => console.error(err))
+    return () => {
+      mounted = false
+      createdUrls.forEach((url) => URL.revokeObjectURL(url))
+    }
+  }, [pendingFile])
 
   return (
     <section className="content-main consider-header">
@@ -40,7 +79,7 @@ const ContentMain = () => {
           title="Test your luck!"
           imageNode={<ImageEmojiFlirt />}
         />
-        <GalleryMain />
+        <GalleryMain images={images} />
         <ButtonMain title="Load more" imageNode={<ImageReload />} />
         <GalleryUpload imagePreview={imagePreview} />
         {imagePreview ? (
@@ -50,7 +89,7 @@ const ContentMain = () => {
               imageNode={<ImageUpload />}
               changeInput={changeInput}
             />
-            <ButtonMain title="Submit" imageNode={<ImageSend />} />
+            <ButtonMain clickBtn={uploadImage} title="Submit" imageNode={<ImageSend />} />
           </div>
         ) : (
           <InputFileUpload
@@ -63,7 +102,6 @@ const ContentMain = () => {
           <ImagePolygon />
         </div>
       </div>
-
 
       {/* Modal for single gallery image */}
       <ModalGalleryMain

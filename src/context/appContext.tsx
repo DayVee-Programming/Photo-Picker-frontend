@@ -6,10 +6,12 @@ type AppContextProviderProps = {
 type AppContext = {
   isModalGalleryMainOpen: boolean
   isModalGalleryPreviewOpen: boolean
+  pendingFile: File | null
   openModalGalleryMain: () => void
   closeModalGalleryMain: () => void
   openModalGalleryPreview: () => void
   closeModalGalleryPreview: () => void
+  setPendingFile: (file: File | null) => void
 }
 
 export const AppContext = createContext({} as AppContext)
@@ -17,6 +19,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   // Variables
   const [isModalGalleryMainOpen, setIsModalGalleryMainOpen] = useState(false)
   const [isModalGalleryPreviewOpen, setIsModalGalleryPreviewOpen] = useState(false)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
 
   // Synchronous functions
   const openModalGalleryMain = () => {
@@ -41,6 +44,8 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         isModalGalleryPreviewOpen,
         openModalGalleryPreview,
         closeModalGalleryPreview,
+        pendingFile,
+        setPendingFile,
       }}
     >
       {children}
