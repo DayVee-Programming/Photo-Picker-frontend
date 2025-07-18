@@ -12,7 +12,7 @@ import ImagePolygon from '@/components/images/ImagePolygon'
 import ModalGalleryMain from '@/components/modals/ModalGalleryMain'
 import ImageSearch from '@/components/images/ImageSearch'
 import galleryImage1 from '@/assets/images/gallery-home1.png'
-import { addImage, getAllImages } from '@/lib/idb'
+import { addImageToIDB, getIDBImages } from '@/lib/idb'
 
 type ImagePreviewType = string | null
 
@@ -29,7 +29,7 @@ const ContentMain = () => {
     if (!imagePreview) return
     try {
       if (pendingFile) {
-        await addImage(pendingFile)
+        await addImageToIDB(pendingFile)
         alert('Image saved to IndexedDB!')
         setPendingFile(null)
         setImagePreview(null)
@@ -56,17 +56,19 @@ const ContentMain = () => {
 
   // Effects
   useEffect(() => {
-    let mounted = true
+    // let mounted = true
     let createdUrls: string[] = []
-    getAllImages()
+    getIDBImages()
       .then((blobs) => {
-        if (!mounted) return
+        // if (!mounted) return
         createdUrls = blobs.map((blob) => URL.createObjectURL(blob))
         setImages(createdUrls)
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err)
+      })
     return () => {
-      mounted = false
+      // mounted = false
       createdUrls.forEach((url) => URL.revokeObjectURL(url))
     }
   }, [pendingFile])
