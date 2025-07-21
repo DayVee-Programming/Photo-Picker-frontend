@@ -2,7 +2,7 @@ import ButtonMain from '@/components/buttons/ButtonMain'
 import GalleryMain from '@/components/galleries/GalleryMain'
 import ImageEmojiFlirt from '@/components/images/ImageEmojiFlirt'
 import { AppContext } from '@/context/appContext'
-import { useContext, useEffect, useState, type ChangeEvent } from 'react'
+import { useCallback, useContext, useEffect, useState, type ChangeEvent } from 'react'
 import ImageReload from '@/components/images/ImageReload'
 import GalleryUpload from '@/components/galleries/GalleryUpload'
 import ImageUpload from '@/components/images/ImageUpload'
@@ -11,18 +11,19 @@ import ImageSend from '@/components/images/ImageSend'
 import ImagePolygon from '@/components/images/ImagePolygon'
 import ModalGalleryMain from '@/components/modals/ModalGalleryMain'
 import ImageSearch from '@/components/images/ImageSearch'
-import galleryImage1 from '@/assets/images/gallery-home1.png'
-import { addImageToIDB, getIDBImages } from '@/lib/idb'
-
-type ImagePreviewType = string | null
+import { addImageToIDB, getIDBImages, type IDBImageRecord } from '@/lib/idb'
+import { toast } from 'react-toastify'
 
 const ContentMain = () => {
   // Variables
   const { isModalGalleryMainOpen, openModalGalleryMain, closeModalGalleryMain } =
     useContext(AppContext)
-  const [imagePreview, setImagePreview] = useState<ImagePreviewType>(null)
-  const { pendingFile, setPendingFile } = useContext(AppContext)
-  const [images, setImages] = useState<string[]>([])
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const { pendingFile, setPendingFile, areImagesUpdated, stopUpdatingImages } =
+    useContext(AppContext)
+  const [images, setImages] = useState<{ id: number; src: string }[]>([])
+  const [visibleCount, setVisibleCount] = useState(6)
+  const [randomImageUrl, setRandomImageUrl] = useState<string | null>(null)
 
   // Asynchronous functions
   const uploadImage = async () => {
@@ -30,7 +31,15 @@ const ContentMain = () => {
     try {
       if (pendingFile) {
         await addImageToIDB(pendingFile)
-        alert('Image saved to IndexedDB!')
+        toast.success('Image is uploaded!', {
+          position: 'top-right',
+          autoClose: 3000,
+          draggable: true,
+        })
+        const galleryEl = document.querySelector('#gallery-main')
+        if (galleryEl) {
+          galleryEl.scrollIntoView()
+        }
         setPendingFile(null)
         setImagePreview(null)
       } else {
@@ -53,36 +62,47 @@ const ContentMain = () => {
     setPendingFile(file)
     setImagePreview(previewUrl)
   }
+  const loadMore = () => {
+    setVisibleCount((count) => Math.min(images.length, count + 6))
+  }
+  const clickRandomImage = () => {
+    const randomIndex = Math.floor(Math.random() * visibleImages.length)
+    setRandomImageUrl(visibleImages[randomIndex].src)
+    openModalGalleryMain()
+  }
 
   // Effects
+  const visibleImages = useCallback(() => images.slice(0, visibleCount), [images, visibleCount])()
   useEffect(() => {
-    // let mounted = true
-    let createdUrls: string[] = []
+    let createdUrls: { id: number; src: string }[] = []
     getIDBImages()
-      .then((blobs) => {
-        // if (!mounted) return
-        createdUrls = blobs.map((blob) => URL.createObjectURL(blob))
+      .then((records: IDBImageRecord[]) => {
+        createdUrls = records
+          .map((record) => ({
+            id: record.id,
+            src: URL.createObjectURL(record.blob),
+          }))
+          .reverse()
         setImages(createdUrls)
+        stopUpdatingImages()
       })
       .catch((err) => {
         console.error(err)
       })
-    return () => {
-      // mounted = false
-      createdUrls.forEach((url) => URL.revokeObjectURL(url))
-    }
-  }, [pendingFile])
+  }, [pendingFile, areImagesUpdated, stopUpdatingImages])
 
   return (
     <section className="content-main consider-header">
       <div className="container wrapper">
         <ButtonMain
-          clickBtn={openModalGalleryMain}
+          clickBtn={clickRandomImage}
           title="Test your luck!"
           imageNode={<ImageEmojiFlirt />}
         />
-        <GalleryMain images={images} />
-        <ButtonMain title="Load more" imageNode={<ImageReload />} />
+        <GalleryMain images={visibleImages} />
+        {visibleCount < images.length && (
+          <ButtonMain title="Load more" imageNode={<ImageReload />} clickBtn={loadMore} />
+        )}
         <GalleryUpload imagePreview={imagePreview} />
         {imagePreview ? (
           <div className="reupload">
@@ -109,9 +129,13 @@ const ContentMain = () => {
       <ModalGalleryMain
         open={isModalGalleryMainOpen}
         closeFunc={closeModalGalleryMain}
-        imagePath={galleryImage1}
+        imagePath={randomImageUrl}
       >
-        <ButtonMain title="Try another one" imageNode={<ImageSearch />} />
+        <ButtonMain
+          title="Try another one"
+          imageNode={<ImageSearch />}
+          clickBtn={clickRandomImage}
+        />
       </ModalGalleryMain>
     </section>
   )

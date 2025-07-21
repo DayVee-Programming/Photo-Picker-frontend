@@ -1,5 +1,6 @@
 import { Box, Fade, Modal } from '@mui/material'
 import { type FC, type ReactNode } from 'react'
+import Zoom from 'react-medium-image-zoom'
 
 interface ModalGalleryMainProps {
   open: boolean
@@ -29,13 +30,15 @@ const ModalGalleryMain: FC<ModalGalleryMainProps> = ({
     >
       <Fade in={open}>
         <Box className="box">
-          <figure className="box-figure">
-            <img
-              className="box-figure-img"
-              src={imagePath ? imagePath : undefined}
-              alt="Gallery image"
-            />
-          </figure>
+          <Zoom>
+            <figure className="box-figure">
+              <img
+                className="box-figure-img"
+                src={imagePath ? imagePath : undefined}
+                alt="Gallery image"
+              />
+            </figure>
+          </Zoom>
           {children}
         </Box>
       </Fade>

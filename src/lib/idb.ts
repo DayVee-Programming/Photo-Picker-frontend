@@ -42,7 +42,12 @@ export const addImageToIDB = async (file: File): Promise<number> => {
   })
 }
 
-export const getIDBImages = async (): Promise<Blob[]> => {
+export interface IDBImageRecord {
+  id: number
+  blob: Blob
+}
+
+export const getIDBImages = async (): Promise<IDBImageRecord[]> => {
   const db = await openIDB()
   return new Promise((resolve, reject) => {
     // Transaction object
@@ -52,9 +57,15 @@ export const getIDBImages = async (): Promise<Blob[]> => {
     const req = store.getAll()
 
     req.addEventListener('success', () => {
-      // Return only blobs/files
-      console.log(req.result)
-      resolve(req.result.map((res) => res as Blob))
+      const raw = req.result as unknown[]
+      const records: IDBImageRecord[] = raw.map((item) => {
+        const obj = item as Blob & { id: number }
+        return {
+          id: obj.id,
+          blob: obj,
+        }
+      })
+      resolve(records)
     })
     req.addEventListener('error', () => {
       reject(req.error)
@@ -70,7 +81,6 @@ export const removeIDBImage = async (id: number): Promise<void> => {
 
     const store = tx.objectStore(STORE_NAME)
     const req = store.delete(id)
-    console.log(req)
     req.addEventListener('success', () => {
       resolve()
     })
