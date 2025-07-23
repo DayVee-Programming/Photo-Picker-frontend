@@ -66,9 +66,17 @@ const ContentMain = () => {
     setVisibleCount((count) => Math.min(images.length, count + 6))
   }
   const clickRandomImage = () => {
-    const randomIndex = Math.floor(Math.random() * visibleImages.length)
-    setRandomImageUrl(visibleImages[randomIndex].src)
-    openModalGalleryMain()
+    if (visibleImages.length) {
+      const randomIndex = Math.floor(Math.random() * visibleImages.length)
+      setRandomImageUrl(visibleImages[randomIndex].src)
+      openModalGalleryMain()
+    } else {
+      toast.info('Please upload some images!', {
+        position: 'top-right',
+        autoClose: 3000,
+        draggable: true,
+      })
+    }
   }
 
   // Effects

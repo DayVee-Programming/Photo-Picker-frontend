@@ -17,9 +17,11 @@ $fw-1: 400;
 // Font sizes
 $fs-1: 16px;
 $fs-2: 30px;
+$fs-3: 24px;
 
 // Responsive font sizes
 $fsr-1: clamp($fs-1, 0.466rem + 3.3vw, $fs-2);
+$fsr-2: clamp($fs-3, 1.389rem + 0.56vw, $fs-2);
 
 // Basic styles
 * {
